@@ -1,4 +1,3 @@
-import { AppError } from "../../../../shared/AppError";
 import { User } from "../../model/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
