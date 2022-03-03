@@ -1,3 +1,4 @@
+import { AppError } from "../../../../shared/AppError";
 import { User } from "../../model/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
@@ -9,7 +10,15 @@ class TurnUserAdminUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ user_id }: IRequest): User {
-    // Complete aqui
+    let user = this.usersRepository.findById(user_id);
+
+    if (!user) {
+      throw new Error("O usuário que pede o perfil precisa existir.");
+    }
+
+    user = this.usersRepository.turnAdmin(user);
+
+    return user;
   }
 }
 
