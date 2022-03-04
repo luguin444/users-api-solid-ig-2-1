@@ -12,7 +12,7 @@ class TurnUserAdminUseCase {
     let user = this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new Error("O usuário que pede o perfil precisa existir.");
+      throw new Error("O usuário precisa existir.");
     }
 
     user = this.usersRepository.turnAdmin(user);
