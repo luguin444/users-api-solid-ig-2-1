@@ -1,0 +1,228 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User CRUD Documentation",
+    "description": "This is an API to manage the users from the application",
+    "version": "1.0.0",
+    "contact": {
+      "email": "meuEmailLindo@respondeai.com.br"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Create a new user since there is no user with the sent email.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "user name sample",
+                  "email": "userEmailSample@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User Created with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": "56722086-5987-48af-914f-31b63b4ea503",
+                    "created_at": "2022-03-03T22:43:39.266Z",
+                    "updated_at": "2022-03-03T22:43:52.295Z",
+                    "admin": true,
+                    "name": "user name sample",
+                    "email": "userEmailSample@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User email already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "O email do usuário já está cadastrado."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "User uuid must be from an admin user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Get list of all users",
+        "description": "Get data from all users saved, in case the request is from an admin user.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "id": "56722086-5987-48af-914f-31b63b4ea503",
+                      "created_at": "2022-03-03T22:43:39.266Z",
+                      "updated_at": "2022-03-03T22:43:52.295Z",
+                      "admin": true,
+                      "name": "user name sample",
+                      "email": "userEmailSample@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user is not an admin or does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "O usuário não é admin ou não está cadastrado."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User uuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Get a user data",
+        "description": "Get all data from user's profile, in case the users exists.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "56722086-5987-48af-914f-31b63b4ea503",
+                    "created_at": "2022-03-03T22:43:39.266Z",
+                    "updated_at": "2022-03-03T22:43:52.295Z",
+                    "admin": true,
+                    "name": "testeUser",
+                    "email": "userEmail@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The user does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "O usuário que pede o perfil precisa existir."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/admin": {
+      "patch": {
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User uuid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Turn the user in an admin user",
+        "description": "Make the user who has the id sent in the url, an admin user.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "56722086-5987-48af-914f-31b63b4ea503",
+                    "created_at": "2022-03-03T22:43:39.266Z",
+                    "updated_at": "2022-03-03T22:43:52.295Z",
+                    "admin": true,
+                    "name": "testeUser",
+                    "email": "userEmail@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The user does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "O usuário precisa existir."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
